@@ -4,7 +4,7 @@ import numpy as np
 from rustypot import Scs0009PyController
 
 #Side
-Side = 1 # 1=> Right Hand // 2=> Left Hand
+Side = 2 # 1=> Right Hand // 2=> Left Hand
 
 
 #Speed
@@ -12,10 +12,10 @@ MaxSpeed = 7
 CloseSpeed = 3
 
 #Fingers middle poses
-MiddlePos = [3, 0, -5, -8, -2, 5, -12, 0] # replace values by your calibration results
+MiddlePos = [17, -10, 10, -28, 10, -16, -5, -30] # our calibrated values
 
 c = Scs0009PyController(
-        serial_port="COM11",
+        serial_port="/dev/serial/by-id/usb-1a86_USB_Single_Serial_5B42139153-if00",
         baudrate=1000000,
         timeout=0.5,
     )
@@ -26,6 +26,7 @@ def main():
     
     c.write_torque_enable(1, 1)  #1 = On / 2 = Off / 3 = Free
     t0 = time.time()
+
 
     while True:
         t = time.time() - t0
@@ -72,8 +73,8 @@ def main():
         Pinched()
         time.sleep(1)
 
-        Fuck()
-        time.sleep(0.8)
+        # Fuck()
+        # time.sleep(0.8)
 
 
         #trials
