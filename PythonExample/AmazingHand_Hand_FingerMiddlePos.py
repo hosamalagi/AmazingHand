@@ -4,8 +4,8 @@ import numpy as np
 from rustypot import Scs0009PyController
 
 
-ID_1 = 1 #Change to servo ID you want to calibrate 
-ID_2 = 2 #Change to servo ID you want to calibrate 
+ID_1 = 17 #Change to servo ID you want to calibrate 
+ID_2 = 18 #Change to servo ID you want to calibrate 
 MiddlePos_1 = 0 #Middle position for servo ID_1 
 MiddlePos_2 = 0 #Middle position for servo ID_2
 

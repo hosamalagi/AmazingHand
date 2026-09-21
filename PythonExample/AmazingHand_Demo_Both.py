@@ -12,12 +12,12 @@ MaxSpeed = 7
 CloseSpeed = 3
 
 #Fingers middle poses
-MiddlePos_1 = [3, 0, -8, -13, 2, -5, -12, -5] #1eplace values by your calibration1esults
-MiddlePos_2 = [3, -3, -1, -10, 5, 2, -7, 3] #1eplace values by your calibration1esults
+MiddlePos_1 = [8, -10, 10, 0, 4, -5, 6, -8] # replace values by your calibration results
+MiddlePos = [-7, -5, -5, 8, 8, 0, 0, -6] # replace values by your calibration results
 
 
 c = Scs0009PyController(
-        serial_port="COM5",
+        serial_port= "/dev/serial/by-id/usb-1a86_USB_Single_Serial_5B42139153-if00",
         baudrate=1000000,
         timeout=0.05,  #0.05
     )
@@ -33,7 +33,7 @@ def main():
         t = time.time() - t0
 
         OpenHand()
-        time.sleep(0.5)
+        time.sleep(2)
 
         CloseHand()
         time.sleep(4)
@@ -61,10 +61,10 @@ def main():
         time.sleep(0.8)
 
         OpenHand()
-        time.sleep(0.4)
+        time.sleep(1)
 
         Victory()
-        time.sleep(0.5)
+        time.sleep(1)
         Scissors()
         time.sleep(0.5)
 
@@ -227,7 +227,7 @@ def Fuck():
         Move_Thumb (75, -5, MaxSpeed, 2)
 
 
-#Fingers
+#Fingers: Changed IDs according to picture and build
 
 def Move_Index (Angle_1,Angle_2,Speed, Hand):
     if (Hand==1): #Right hand finger
@@ -242,14 +242,14 @@ def Move_Index (Angle_1,Angle_2,Speed, Hand):
         time.sleep(0.0002)
 
     if (Hand==2): #Left hand finger
-        c.write_goal_speed(11, Speed)
+        c.write_goal_speed(15, Speed)
         time.sleep(0.0002)
-        c.write_goal_speed(12, Speed)
+        c.write_goal_speed(16, Speed)
         time.sleep(0.0002)
         Pos_1 = np.deg2rad(MiddlePos_2[0]+Angle_1)
         Pos_2 = np.deg2rad(MiddlePos_2[1]+Angle_2) 
-        c.write_goal_position(11, Pos_1)
-        c.write_goal_position(12, Pos_2)
+        c.write_goal_position(15, Pos_1)
+        c.write_goal_position(16, Pos_2)
         time.sleep(0.0002)
 
 def Move_Middle(Angle_1,Angle_2,Speed, Hand):    
@@ -287,14 +287,14 @@ def Move_Ring(Angle_1,Angle_2,Speed, Hand):
         time.sleep(0.0002)
 
     if (Hand==2): #Left hand finger
-        c.write_goal_speed(15, Speed)
+        c.write_goal_speed(11, Speed)
         time.sleep(0.0002)
-        c.write_goal_speed(16, Speed)
+        c.write_goal_speed(12, Speed)
         time.sleep(0.0002)
         Pos_1 = np.deg2rad(MiddlePos_2[4]+Angle_1)
         Pos_2 = np.deg2rad(MiddlePos_2[5]+Angle_2)
-        c.write_goal_position(15, Pos_1)
-        c.write_goal_position(16, Pos_2)
+        c.write_goal_position(11, Pos_1)
+        c.write_goal_position(12, Pos_2)
         time.sleep(0.0002)
 
 def Move_Thumb(Angle_1,Angle_2,Speed, Hand):

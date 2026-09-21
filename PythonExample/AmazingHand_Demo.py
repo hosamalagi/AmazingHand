@@ -1,10 +1,12 @@
+import math
 import time
 import numpy as np
 
 from rustypot import Scs0009PyController
+from math import ceil
 
 #Side
-Side = 2 # 1=> Right Hand // 2=> Left Hand
+Side = 1 # 1=> Right Hand // 2=> Left Hand
 
 
 #Speed
@@ -12,7 +14,14 @@ MaxSpeed = 7
 CloseSpeed = 3
 
 #Fingers middle poses
-MiddlePos = [17, -10, 10, -28, 10, -16, -5, -30] # our calibrated values
+MiddlePos = [8, -10, 10, 0, 4, -5, 6, -8] # replace values by your calibration results # our calibrated values
+
+FINGER_MOTORS_R = {
+    "index": (1, 2),
+    "middle": (3, 4),
+    "ring": (5, 6),
+    "thumb": (7, 8)
+}
 
 c = Scs0009PyController(
         serial_port="/dev/serial/by-id/usb-1a86_USB_Single_Serial_5B42139153-if00",
@@ -31,50 +40,10 @@ def main():
     while True:
         t = time.time() - t0
 
-        OpenHand()
-        time.sleep(0.5)
+        #incremental_finger_move("index", [-35, 35], [90, -90], 3, 20)
+        
 
         CloseHand()
-        time.sleep(3)
-
-        OpenHand_Progressive()
-        time.sleep(0.5)
-
-        SpreadHand()
-        time.sleep(0.6)
-        ClenchHand()
-        time.sleep(0.6)
-
-        OpenHand()
-        time.sleep(0.2)
-
-        Index_Pointing()
-        time.sleep(0.4)
-        Nonono()
-        time.sleep(0.5)
-        
-        OpenHand()
-        time.sleep(0.3)
-
-        Perfect()
-        time.sleep(0.8)
-
-        OpenHand()
-        time.sleep(0.4)
-
-        Victory()
-        time.sleep(1)
-        Scissors()
-        time.sleep(0.5)
-
-        OpenHand()
-        time.sleep(0.4)
-
-        Pinched()
-        time.sleep(1)
-
-        # Fuck()
-        # time.sleep(0.8)
 
 
         #trials
@@ -277,6 +246,44 @@ def Move_Thumb(Angle_1,Angle_2,Speed):
     c.write_goal_position(7, Pos_1)
     c.write_goal_position(8, Pos_2)
     time.sleep(0.005)
+
+
+# More Functions:
+def incremental_finger_move(finger, start: list[int, int], goal: list[int, int], Speed, steps):
+    steps+=1 # include the last step
+
+    #calculate a step size for each motor
+    step_size = [(goal[0] - start[0])/steps, (goal[1] - start[1])/steps]
+
+    #move the finger in incremental steps
+    for i in range(1, steps):
+        move_finger(finger, start[0] + i * step_size[0], start[1] + i * step_size[1], Speed)
+        time.sleep(0.1)
+
+    #last step:
+    move_finger(finger, goal[0], goal[1], Speed)
+
+    
+    
+def move_finger(finger, Angle_1, Angle_2, Speed):
+    motor_1, motor_2 = FINGER_MOTORS_R[finger]
+
+    c.write_goal_speed(motor_1, Speed)
+    time.sleep(0.0002)
+
+    c.write_goal_speed(motor_2, Speed)
+    time.sleep(0.0002)
+
+    pos_1 = np.deg2rad(MiddlePos[motor_1 - 1] + Angle_1)
+    pos_2 = np.deg2rad(MiddlePos[motor_2 - 1] + Angle_2)
+
+    c.write_goal_position(motor_1, pos_1)
+    c.write_goal_position(motor_2, pos_2)
+
+    time.sleep(0.005)
+
+
+
 
 
 if __name__ == '__main__':
