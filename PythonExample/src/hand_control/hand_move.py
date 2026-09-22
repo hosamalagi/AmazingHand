@@ -27,6 +27,7 @@ def move_finger(controller, finger, Angle_1, Angle_2, Speed):
 
     # else:     #TODO: implement left hand if needed
     #     motor_1, motor_2 = FINGER_MOTORS_L_DICT[finger]
+    time.sleep(0.002) #added afterwards
 
     controller.write_goal_speed(motor_1, Speed)
     time.sleep(0.0002)
@@ -67,4 +68,8 @@ def open_finger(c, finger, speed):
     move_finger(c, finger, -ANGLE_MAX, ANGLE_MAX, speed)
 
 def close_finger(c, finger, speed):
-    move_finger(c, finger, ANGLE_MAX, -ANGLE_MAX, speed)   
+    move_finger(c, finger, ANGLE_MAX, -ANGLE_MAX, speed)
+
+def OpenHandFull(c, speed):
+    for finger in ["index", "middle", "ring", "thumb"]:
+        open_finger(c, finger, speed)

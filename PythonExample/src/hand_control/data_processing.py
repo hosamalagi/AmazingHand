@@ -12,7 +12,7 @@ def calibrate_baseline(UDPReceiver):
             time.sleep(0.01)  # wait 10 ms before the next reading
 
         calibration_data = [int(value) // CALIBRATION_COUNT for value in calibration_data]
-        return [value - OFFSET for value in calibration_data]
+        return [value for value in calibration_data]
         
 
       

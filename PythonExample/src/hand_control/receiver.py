@@ -10,9 +10,17 @@ class UDPReceiver:
         self.sock.bind(("127.0.0.1", port))
         self.sock.setblocking(False)
 
+    def clear_buffer(self):
+        while True:
+            try:
+                self.sock.recvfrom(MAX_UDP_PACKET_SIZE)
+            except BlockingIOError:
+                break
+
     def wait_for_sensor_data(self):
         """Wait for sensor data and return it as a list of integers."""
 
+        self.clear_buffer()
         counter = 0
         
 

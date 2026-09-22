@@ -54,8 +54,9 @@ class PosPController:
         self.state_machine = StateMachine(upper_th, lower_th)
         self.scs = scs
 
-    def update(self, actual):
-        self.state_machine.update(actual)
+    def update(self, value):
+        """Updates the state depending on value"""
+        self.state_machine.update(value)
 
     @property
     def state(self):
@@ -84,6 +85,9 @@ class PosPController:
 
         new_pos1 = value_p + pp[0]
         new_pos2 = -value_p + pp[1]
+
+        if finger.name =="ring":
+            print(f"Finger: {finger.name}; p Controller value:{value_p}")
 
         # Cap the positions
         new_pos1 = max(-ANGLE_MAX, min(ANGLE_MAX, new_pos1))

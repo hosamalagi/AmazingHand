@@ -23,8 +23,11 @@ class Finger:
         self.motor_1 = motor_1
         self.motor_2 = motor_2
         self.sensor_slot = sensor_slot
+
         self.upper_th = upper_th
         self.lower_th = lower_th
+
+        
         self.present_pos1 = 0
         self.present_pos2 = 0
         self.baseline = 0
@@ -39,7 +42,7 @@ class Hand:
     def __init__(self, c, udp):
         self.c = c
         self.udp_receiver = udp
-        self.fingers = [
+        self.fingers = [ #TODO: Relocate slot value to params.py
             Finger("index",  1, 2, 1, INDEX_UPPER_TH,  INDEX_LOWER_TH,  KP_INDEX,  c),
             Finger("middle", 3, 4, 2, MIDDLE_UPPER_TH, MIDDLE_LOWER_TH, KP_MIDDLE, c),
             Finger("ring",   5, 6, 3, RING_UPPER_TH,   RING_LOWER_TH,   KP_RING,   c),
@@ -60,11 +63,13 @@ class Hand:
         )
 
     def set_sensor_data(self, sensor_data):
+        """Overrides the sensor data and calibrated data of fingers"""
         for finger in self.fingers:
             finger.sensor_data = sensor_data[finger.sensor_slot]
             finger.calibrated_data = (
                 finger.sensor_data - finger.baseline
             )
+            # print(f"Name: {finger.name} Cal. Data: {finger.calibrated_data}")
 
     def update_present_positions(self):
         for finger in self.fingers:
