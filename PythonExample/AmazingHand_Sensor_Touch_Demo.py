@@ -1,10 +1,9 @@
 import time
-from rustypot import Scs0009PyController
-from src.hand_control.hand_move import OpenHand,CloseHand, open_finger, close_finger, OpenHandFull
+from src.hand_control.hand_move import open_finger, OpenHandFull
 from src.hand_control.params import UDP_DATA_PORT, ControlSpeed, MaxSpeed
 from src.hand_control.receiver import UDPReceiver
 from src.hand_control.prox_state_machine import States
-from src.hand_control.ServoBoard import start_servo_board
+from src.hand_control.ServoBoard import start_servo_board_right
 from src.hand_control.Fingers import Hand
 from src.hand_control.hand_move import hand_show
 
@@ -12,7 +11,7 @@ from src.hand_control.hand_move import hand_show
 #recieve sensordata from pytuner, use the data to control the hand
 def main():
 #Inits:
-    c=start_servo_board()
+    c=start_servo_board_right()
     udp_receiver=UDPReceiver(UDP_DATA_PORT)
 
     hand = Hand(c, udp_receiver)

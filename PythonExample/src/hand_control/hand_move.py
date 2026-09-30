@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from src.hand_control.params import SIDE, MiddlePos, FINGER_MOTORS_R_DICT, MaxSpeed, ANGLE_MAX
+from src.hand_control.params import SIDE, MiddlePos, FINGER_MOTORS_R_DICT, FINGER_MOTORS_L_DICT, MaxSpeed, ANGLE_MAX
 
 
 
@@ -50,6 +50,25 @@ def move_finger(controller, finger, Angle_1, Angle_2, Speed):
     # print(np.rad2deg(controller.read_goal_position(motor_2))-MiddlePos[motor_2 - 1])
     # print(np.rad2deg(controller.read_present_position(motor_1))-MiddlePos[motor_1 - 1])
 
+
+def move_finger_left(controller, finger, Angle_1, Angle_2, Speed):
+
+    motor_1, motor_2 = FINGER_MOTORS_L_DICT[finger]
+    time.sleep(0.002) #added afterwards
+
+    controller.write_goal_speed(motor_1, Speed)
+    time.sleep(0.0002)
+
+    controller.write_goal_speed(motor_2, Speed)
+    time.sleep(0.0002)
+
+    pos_1 = np.deg2rad(MiddlePos[(motor_1 - 1)%10] + Angle_1)
+    pos_2 = np.deg2rad(MiddlePos[(motor_2 - 1)%10] + Angle_2)
+
+    controller.write_goal_position(motor_1, pos_1)
+    controller.write_goal_position(motor_2, pos_2)
+
+    time.sleep(0.005)
 
 
 def OpenHand(c):

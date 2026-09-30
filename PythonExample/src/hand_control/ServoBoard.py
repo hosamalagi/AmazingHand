@@ -2,9 +2,16 @@ from rustypot import Scs0009PyController
 
 
 
-def start_servo_board():
+def start_servo_board_right():
     return Scs0009PyController(
         serial_port="/dev/serial/by-id/usb-1a86_USB_Single_Serial_5B42139153-if00",
+        baudrate=1_000_000,
+        timeout=0.5,
+    )
+
+def start_servo_board_left():
+    return Scs0009PyController(
+        serial_port="/dev/serial/by-id/usb-1a86_USB_Single_Serial_5B42133931-if00",
         baudrate=1_000_000,
         timeout=0.5,
     )

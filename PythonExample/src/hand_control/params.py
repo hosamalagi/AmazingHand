@@ -52,7 +52,7 @@ HYST = 0
 
 # Hand control Params
 FINGER_COUNT = 4
-MaxSpeed = 1.5
+MaxSpeed = 1.5  #was set to 7 in the initial AH demos
 MinSpeed = 0.5
 ControlSpeed = 1
 MiddlePos = [8, -10, 10, 0, 4, -5, 6, -8] #RIGHT
