@@ -1,6 +1,6 @@
 import time
 from src.hand_control.hand_move import open_finger, OpenHandFull
-from src.hand_control.params import UDP_DATA_PORT, ControlSpeed, MaxSpeed
+from src.hand_control.params import UDP_DATA_PORT, ControlSpeed, MaxSpeed, CONTROL_TIME
 from src.hand_control.receiver import UDPReceiver
 from src.hand_control.prox_state_machine import States
 from src.hand_control.ServoBoard import start_servo_board_right
@@ -20,20 +20,20 @@ def main():
     sensor_data = []
     
 
-    t0 = time.time()
+    
 
 #Starting Position
     OpenHandFull(c, ControlSpeed)
-    time.sleep(2.5)
+    time.sleep(2)
 
 #Calibrate the baseline: has to be set before starting!
     hand.set_baseline()
+    
 
     while True:
-        t = time.time() - t0
-        t_last_touch = t
+        t0 = time.monotonic()
 
-        while t_last_touch < 30: #hand goes to hand_show after this time
+        while time.monotonic() - t0 <= CONTROL_TIME: #hand goes to hand_show after this time
 
             #Recieving the data for all fingers and save in Hand
             sensor_data=udp_receiver.wait_for_sensor_data()
@@ -52,7 +52,7 @@ def main():
                         finger.calibrated_data
                     )
                     #Reset the timer
-                    t_last_touch = 0
+                    t0 = time.monotonic()
                 else:
                     open_finger(c, finger.name, MaxSpeed)
 

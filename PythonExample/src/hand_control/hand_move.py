@@ -3,8 +3,6 @@ import numpy as np
 from src.hand_control.params import SIDE, MiddlePos, FINGER_MOTORS_R_DICT, FINGER_MOTORS_L_DICT, MaxSpeed, ANGLE_MAX
 
 
-
-
 # def incremental_finger_move(controller, finger, start: list[int, int], goal: list[int, int], Speed, steps):
 #     steps+=1 # include the last step
 
@@ -52,6 +50,7 @@ def move_finger(controller, finger, Angle_1, Angle_2, Speed):
 
 
 def move_finger_left(controller, finger, Angle_1, Angle_2, Speed):
+    """Lazy implementation of left hand movement. For a clean project merge this with moe_finger and add SIDE selection"""
 
     motor_1, motor_2 = FINGER_MOTORS_L_DICT[finger]
     time.sleep(0.002) #added afterwards

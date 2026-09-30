@@ -86,8 +86,7 @@ class PosPController:
         new_pos1 = value_p + pp[0]
         new_pos2 = -value_p + pp[1]
 
-        if finger.name =="ring":
-            print(f"Finger: {finger.name}; p Controller value:{value_p}")
+        print(f"Finger: {finger.name}; p Controller value:{value_p}")
 
         # Cap the positions
         new_pos1 = max(-ANGLE_MAX, min(ANGLE_MAX, new_pos1))
