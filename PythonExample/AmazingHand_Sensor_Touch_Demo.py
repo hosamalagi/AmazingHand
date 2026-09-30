@@ -6,6 +6,7 @@ from src.hand_control.receiver import UDPReceiver
 from src.hand_control.prox_state_machine import States
 from src.hand_control.ServoBoard import start_servo_board
 from src.hand_control.Fingers import Hand
+from src.hand_control.hand_move import hand_show
 
 
 #recieve sensordata from pytuner, use the data to control the hand
@@ -31,29 +32,33 @@ def main():
 
     while True:
         t = time.time() - t0
+        t_last_touch = t
 
-        #Recieving the data for all fingers and save in Hand
-        sensor_data=udp_receiver.wait_for_sensor_data()
+        while t_last_touch < 30: #hand goes to hand_show after this time
 
-        hand.set_sensor_data(sensor_data)
+            #Recieving the data for all fingers and save in Hand
+            sensor_data=udp_receiver.wait_for_sensor_data()
 
-        #Control all fingers
-        for finger in hand.fingers:
-            finger.poscontroller.update(finger.calibrated_data)
+            hand.set_sensor_data(sensor_data)
 
-            # if finger.name=="ring":
-            #     print(f"{finger.name} Calibrated Data: {finger.calibrated_data} State: {finger.poscontroller.state}")
+            #Control all fingers
+            for finger in hand.fingers:
+                finger.poscontroller.update(finger.calibrated_data)
 
-            if finger.poscontroller.state != States.NO_OBJECT:
-            #Control if there is an object:
-                finger.poscontroller.control_finger_pos(
-                    finger,
-                    finger.upper_th,
-                    finger.calibrated_data
-                )
-                # time.sleep(0.05)
-            else:
-                open_finger(c, finger.name, MaxSpeed)
+                if finger.poscontroller.state != States.NO_OBJECT:
+                #Control if there is an object:
+                    finger.poscontroller.control_finger_pos(
+                        finger,
+                        finger.upper_th,
+                        finger.calibrated_data
+                    )
+                    #Reset the timer
+                    t_last_touch = 0
+                else:
+                    open_finger(c, finger.name, MaxSpeed)
+
+        hand_show(c, MaxSpeed, loops=2)
+        #shows hand movement without touching: no hand controlling during this (takes appr. t = loops * 2sec)
         
 
 

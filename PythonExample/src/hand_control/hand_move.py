@@ -73,3 +73,22 @@ def close_finger(c, finger, speed):
 def OpenHandFull(c, speed):
     for finger in ["index", "middle", "ring", "thumb"]:
         open_finger(c, finger, speed)
+
+def OpenHandProgressive(c, speed):
+    for finger in ["index", "middle", "ring", "thumb"]:
+        time.sleep(0.2)
+        open_finger(c, finger, speed)
+
+def CloseHandProgressive(c, speed):
+    for finger in ["index", "middle", "ring", "thumb"]:
+        time.sleep(0.2)
+        close_finger(c, finger, speed)
+
+def hand_show(c, speed, loops):
+    """Is used in this Demo to show hand movement whithout interaction"""
+    for i in range(loops):
+        CloseHandProgressive(c, speed)
+        time.sleep(0.5)
+        OpenHandProgressive(c, speed)
+        time.sleep(0.5)
+
