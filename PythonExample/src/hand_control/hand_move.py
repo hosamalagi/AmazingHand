@@ -106,7 +106,7 @@ def hand_show(c, speed, loops):
     """Is used in this Demo to show hand movement whithout interaction"""
     for i in range(loops):
         CloseHandProgressive(c, speed)
-        time.sleep(0.5)
+        time.sleep(0.7)
         OpenHandProgressive(c, speed)
-        time.sleep(0.5)
+        time.sleep(0.7)
 

@@ -15,9 +15,6 @@ import numpy as np
 class Finger:
     """Class that contains information about the finger configuration."""
 
-class Finger:
-    """Class that contains information about the finger configuration."""
-
     def __init__(self, name, motor_1, motor_2, sensor_slot, upper_th, lower_th, KP, c):
         self.name = name
         self.motor_1 = motor_1

@@ -13,6 +13,10 @@ def calibrate_baseline(UDPReceiver):
 
         calibration_data = [int(value) // CALIBRATION_COUNT for value in calibration_data]
         return [value for value in calibration_data]
+
+def ema_2(old, new, alpha):
+      ema = alpha * new + (1 - alpha) * old
+      return ema
         
 
       

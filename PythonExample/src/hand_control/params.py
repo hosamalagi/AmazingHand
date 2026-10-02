@@ -21,17 +21,17 @@ FINGER_MOTORS_L_DICT = {
 
 #Threasholds: Lower is the detection Threashold, increase if hand is too sensitive
 #              Upper is the goal for the sensor value
-INDEX_UPPER_TH = 720
-INDEX_LOWER_TH = 150
+INDEX_UPPER_TH = 1000
+INDEX_LOWER_TH = 300
 
-MIDDLE_UPPER_TH = 700
-MIDDLE_LOWER_TH = 150
+MIDDLE_UPPER_TH = 1000
+MIDDLE_LOWER_TH = 300
 
-RING_UPPER_TH = 700
-RING_LOWER_TH = 150
+RING_UPPER_TH = 1200
+RING_LOWER_TH = 350
 
-THUMB_UPPER_TH = 1000
-THUMB_LOWER_TH = 200
+THUMB_UPPER_TH = 900
+THUMB_LOWER_TH = 400
 
 KP_INDEX = 0.03
 KP_MIDDLE = 0.03
@@ -53,6 +53,7 @@ HYST = 0
 
 
 # Hand control Params
+ALPHA = 0.7 #EMA-filter constant
 CONTROL_TIME = 30
 FINGER_COUNT = 4
 MaxSpeed = 1.5  #was set to 7 in the initial AH demos
