@@ -1,8 +1,6 @@
 import time
 import numpy as np
-from src.hand_control.params import SIDE, MiddlePos, FINGER_MOTORS_R_DICT, MaxSpeed, ANGLE_MAX
-
-
+from src.hand_control.params import SIDE, MiddlePos, FINGER_MOTORS_R_DICT, FINGER_MOTORS_L_DICT, MaxSpeed, ANGLE_MAX
 
 
 # def incremental_finger_move(controller, finger, start: list[int, int], goal: list[int, int], Speed, steps):
@@ -27,6 +25,7 @@ def move_finger(controller, finger, Angle_1, Angle_2, Speed):
 
     # else:     #TODO: implement left hand if needed
     #     motor_1, motor_2 = FINGER_MOTORS_L_DICT[finger]
+    time.sleep(0.002) #added afterwards
 
     controller.write_goal_speed(motor_1, Speed)
     time.sleep(0.0002)
@@ -50,6 +49,26 @@ def move_finger(controller, finger, Angle_1, Angle_2, Speed):
     # print(np.rad2deg(controller.read_present_position(motor_1))-MiddlePos[motor_1 - 1])
 
 
+def move_finger_left(controller, finger, Angle_1, Angle_2, Speed):
+    """Lazy implementation of left hand movement. For a clean project merge this with moe_finger and add SIDE selection"""
+
+    motor_1, motor_2 = FINGER_MOTORS_L_DICT[finger]
+    time.sleep(0.002) #added afterwards
+
+    controller.write_goal_speed(motor_1, Speed)
+    time.sleep(0.0002)
+
+    controller.write_goal_speed(motor_2, Speed)
+    time.sleep(0.0002)
+
+    pos_1 = np.deg2rad(MiddlePos[(motor_1 - 1)%10] + Angle_1)
+    pos_2 = np.deg2rad(MiddlePos[(motor_2 - 1)%10] + Angle_2)
+
+    controller.write_goal_position(motor_1, pos_1)
+    controller.write_goal_position(motor_2, pos_2)
+
+    time.sleep(0.005)
+
 
 def OpenHand(c):
     move_finger (c, "index",-35,35, MaxSpeed)
@@ -67,4 +86,27 @@ def open_finger(c, finger, speed):
     move_finger(c, finger, -ANGLE_MAX, ANGLE_MAX, speed)
 
 def close_finger(c, finger, speed):
-    move_finger(c, finger, ANGLE_MAX, -ANGLE_MAX, speed)   
+    move_finger(c, finger, ANGLE_MAX, -ANGLE_MAX, speed)
+
+def OpenHandFull(c, speed):
+    for finger in ["index", "middle", "ring", "thumb"]:
+        open_finger(c, finger, speed)
+
+def OpenHandProgressive(c, speed):
+    for finger in ["index", "middle", "ring", "thumb"]:
+        time.sleep(0.2)
+        open_finger(c, finger, speed)
+
+def CloseHandProgressive(c, speed):
+    for finger in ["index", "middle", "ring", "thumb"]:
+        time.sleep(0.2)
+        close_finger(c, finger, speed)
+
+def hand_show(c, speed, loops):
+    """Is used in this Demo to show hand movement whithout interaction"""
+    for i in range(loops):
+        CloseHandProgressive(c, speed)
+        time.sleep(0.5)
+        OpenHandProgressive(c, speed)
+        time.sleep(0.5)
+

@@ -10,8 +10,8 @@ Side = 1 # 1=> Right Hand // 2=> Left Hand
 
 
 #Speed
-MaxSpeed = 7
-CloseSpeed = 3
+MaxSpeed = 2
+CloseSpeed = 2
 
 #Fingers middle poses
 MiddlePos = [8, -10, 10, 0, 4, -5, 6, -8] # replace values by your calibration results # our calibrated values
@@ -41,9 +41,11 @@ def main():
         t = time.time() - t0
 
         #incremental_finger_move("index", [-35, 35], [90, -90], 3, 20)
-        
+        move_finger("middle", 80, -80, 1)
+        time.sleep(4)
 
-        CloseHand()
+        move_finger("middle",-80, 80, 1)
+        time.sleep(4)
 
 
         #trials

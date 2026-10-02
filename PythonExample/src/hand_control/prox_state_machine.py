@@ -18,12 +18,15 @@ class StateMachine():
         self.state = States.NO_OBJECT
     
     def update(self, data):
+        #old_state = self.state
+        
         if data >= self.UPPER_TH:
             self.state = States.OVER_TH
         elif data < self.LOWER_TH:
             self.state = States.NO_OBJECT
         else:
             self.state = States.UNDER_TH
+
 
         return
             
